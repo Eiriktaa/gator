@@ -16,11 +16,21 @@ type Config struct {
 	configFileLocation string
 }
 
-func findCofigFileExists() (filepath string) {
-	//Todo: allow for more configs file locations
-	validPaths := []string{"./" + baseConfigFileName}
+// allows for the config file to be in mulitple location
+// defaults to homedir
+func findConfigFileExists() (filepath string) {
+	homedir, err := os.UserHomeDir()
+	if err != nil {
+		log.Fatal("unable to find home dir aborting")
+	}
+	validPaths := []string{
+		homedir + "/" + baseConfigFileName,
+		"./" + baseConfigFileName,
+	}
 	for _, path := range validPaths {
+		fmt.Println(path)
 		if _, err := os.Stat(path); err == nil {
+			fmt.Println(path)
 			return path
 		}
 	}
@@ -29,7 +39,7 @@ func findCofigFileExists() (filepath string) {
 }
 
 func LoadConfiguration() Config {
-	filepath := findCofigFileExists()
+	filepath := findConfigFileExists()
 	body, err := os.ReadFile(filepath)
 	if err != nil {
 		log.Fatalf("Unable to read config file, %v", err)
@@ -54,7 +64,7 @@ func (c Config) WriteToFile() error {
 	return nil
 
 }
-func (c Config) SetUser(user string) {
+func (c *Config) SetUser(user string) {
 	c.Current_user_name = user
 }
 

@@ -1,17 +1,36 @@
 package main
 
 import (
-	"log"
-
-	"example.com/eiriktaa/gator/internal/config"
+	"example.com/eiriktaa/gator/internal/commands"
+	"example.com/eiriktaa/gator/internal/handlers"
+	"example.com/eiriktaa/gator/internal/state"
+	"fmt"
+	"os"
 )
 
 func main() {
-	cfg := config.LoadConfiguration()
-	cfg.PrintSelf()
-	cfg.Current_user_name = "test"
-	err := cfg.WriteToFile()
+	state := state.InitalizeState()
+	clicmds := handlers.NewCLIHandler()
+
+	name, args := validateArgs()
+	cmd := commands.Command{name, args}
+	err := clicmds.Run(&state, cmd)
 	if err != nil {
-		log.Fatalf("Failed to write config %v", err)
+		fmt.Println(fmt.Sprintf("%v", err))
+		os.Exit(1)
 	}
+}
+
+func validateArgs() (string, []string) {
+	args := os.Args
+	if len(args) < 2 {
+		fmt.Println("No command specified")
+		os.Exit(1)
+	}
+	command := args[1]
+
+	if len(args) >= 3 {
+		return command, args[2:]
+	}
+	return command, nil
 }

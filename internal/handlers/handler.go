@@ -14,16 +14,17 @@ type CommandHandlers struct {
 func NewCLIHandler() CommandHandlers {
 	return CommandHandlers{
 		Handlers: map[string]func(*state.State, commands.Command) error{
-			"login": handlerLogin,
+			"login":    handlerLogin,
+			"register": handlerRegister,
+			"reset":    handlerReset,
 		},
 	}
 }
 
-func (c CommandHandlers) Run(s *state.State, cmd commands.Command) error {
-	fnName := cmd.Name
-	handler, ok := c.Handlers[fnName]
+func (c *CommandHandlers) Run(s *state.State, cmd commands.Command) error {
+	handler, ok := c.Handlers[cmd.Name]
 	if !ok {
-		return fmt.Errorf("%s is not a valid cmd", fnName)
+		return fmt.Errorf("%s is not a valid cmd", cmd.Name)
 	}
 	return handler(s, cmd)
 }

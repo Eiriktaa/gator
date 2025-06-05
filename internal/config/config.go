@@ -28,9 +28,7 @@ func findConfigFileExists() (filepath string) {
 		"./" + baseConfigFileName,
 	}
 	for _, path := range validPaths {
-		fmt.Println(path)
 		if _, err := os.Stat(path); err == nil {
-			fmt.Println(path)
 			return path
 		}
 	}

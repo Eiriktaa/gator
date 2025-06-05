@@ -1,5 +1,7 @@
 package main
 
+// imporiting sql drivers
+import _ "github.com/lib/pq"
 import (
 	"example.com/eiriktaa/gator/internal/commands"
 	"example.com/eiriktaa/gator/internal/handlers"

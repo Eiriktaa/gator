@@ -17,6 +17,7 @@ func NewCLIHandler() CommandHandlers {
 			"login":    handlerLogin,
 			"register": handlerRegister,
 			"reset":    handlerReset,
+			"users":    handlerUsers,
 		},
 	}
 }

@@ -14,5 +14,7 @@
 -- );
 -- +goose Down
 DROP table if exists users cascade;
-DROP TABLE if exists feeds;
-DROP TABLE if exists feed_follow;
+DROP TABLE if exists feeds cascade;
+DROP TABLE if exists feed_follow cascade;
+DROP TABLE if exists posts cascade;
+

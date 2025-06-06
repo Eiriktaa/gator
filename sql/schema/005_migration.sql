@@ -18,6 +18,19 @@ CREATE TABLE feeds (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 
 );
+
+CREATE TABLE posts (
+    id UUID PRIMARY KEY,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL,
+    title TEXT NOT NULL,
+    published_at TEXT NOT NULL,
+    description TEXT NOT NULL,
+    url TEXT NOT NULL UNIQUE,
+    feed_id UUID NOT NULL,
+    FOREIGN KEY (feed_id) REFERENCES feeds(id) ON DELETE CASCADE
+);
+
 CREATE TABLE feed_follow (
      id UUID PRIMARY KEY,
     created_at TIMESTAMP NOT NULL,
@@ -33,4 +46,5 @@ CREATE TABLE feed_follow (
 -- +goose Down
 DROP TABLE feeds cascade;
 DROP TABLE feed_follow cascade;
+DROP TABLE posts;
 DROP TABLE users;  

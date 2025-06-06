@@ -11,6 +11,7 @@ import (
 	"example.com/eiriktaa/gator/internal/database"
 	"example.com/eiriktaa/gator/internal/state"
 	"example.com/eiriktaa/gator/rss"
+	"github.com/lib/pq"
 )
 
 func handleAgg(s *state.State, cmd commands.Command) error {
@@ -42,6 +43,21 @@ func scrapeFeeds(s *state.State) error {
 	if err != nil {
 		return err
 	}
+	postRecords := feedData.GenerateInsertPostRecords(feed.ID)
+	for _, post := range postRecords {
+		if _, err := s.DB.CreatePosts(ctx, post); err != nil {
+			if pgErr, ok := err.(*pq.Error); ok && pgErr.Code == "23505" {
+				continue
+				// Handle the unique constraint violation - maybe print a message?
+			} else if err != nil {
+				// Handle other errors - return them
+				return err
+			}
+
+			fmt.Printf("Error type: %T, value: %v\n", err, err)
+			return err
+		}
+	}
 	_, err = s.DB.MarkFeedFetch(ctx, database.MarkFeedFetchParams{
 		LastFetchedAt: sql.NullTime{time.Now(), true},
 		ID:            feed.ID,
@@ -49,6 +65,6 @@ func scrapeFeeds(s *state.State) error {
 	if err != nil {
 		return err
 	}
-	feedData.DisplayData()
+	fmt.Println("Fetching: ", feedData.Channel.Title)
 	return nil
 }

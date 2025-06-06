@@ -28,11 +28,11 @@ func getRequest(ctx context.Context, url string) (*http.Response, error) {
 	return res, nil
 }
 func unmashalFeedResponse(res *http.Response) (*RSSFeed, error) {
+	defer res.Body.Close()
 	data, err := io.ReadAll(res.Body)
 	if err != nil {
 		return nil, err
 	}
-	defer res.Body.Close()
 
 	var feed RSSFeed
 	err = xml.Unmarshal(data, &feed)

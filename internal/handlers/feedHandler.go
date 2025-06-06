@@ -3,6 +3,7 @@ package handlers
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"time"
 
 	"example.com/eiriktaa/gator/internal/commands"
@@ -65,4 +66,36 @@ func handlerFeeds(s *state.State, cmd commands.Command) error {
 		fmt.Println(fmt.Sprintf("%s - %s <%s>", item.Name, item.Username, item.Url))
 	}
 	return nil
+}
+func handlerBrowse(s *state.State, cmd commands.Command, currentUser database.User) error {
+	args := cmd.Args
+	limit := 2
+	if len(args) >= 1 {
+		val, err := strconv.Atoi(args[0])
+		if err != nil {
+			return err
+		}
+		limit = val
+	}
+	//empty context
+	ctx := context.Background()
+	posts, err := s.DB.GetPosts(ctx, currentUser.ID)
+	if err != nil {
+		return err
+	}
+
+	for i, post := range posts {
+		if i >= limit {
+			return nil
+		}
+		fmt.Println("*******************")
+		fmt.Println("-", post.Title)
+		fmt.Println("-", post.Url)
+		fmt.Println("-", post.Description)
+		fmt.Println("-", post.PublishedAt)
+
+		fmt.Println("*******************")
+	}
+	return nil
+
 }

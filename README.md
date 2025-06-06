@@ -1,5 +1,7 @@
 # Gator CLI
 My solution to [https://www.boot.dev/courses/build-blog-aggregator-golang](https://www.boot.dev/courses/build-blog-aggregator-golang)
+
+
 A command-line tool built in Go that interacts with a PostgreSQL database to manage users, feeds, and follow functionality. This tool provides commands for authentication, feed management, and aggregation.
 
 ---
@@ -26,7 +28,7 @@ Install the Gator CLI using the `go install` command:
 ```bash
 go install github.com/your-username/gator@late
 ```
-##⚙️ Configuration
+## ⚙️ Configuration
 
 Gator expects a configuration file named config.json located either in your home directory or as a fallback in the current project root.
 ✅ Sample config.json:
@@ -42,7 +44,7 @@ Place this file at one of the following locations:
 
     ./config.json (project root)
 
-
+Database Gator is required and can be setup by running make up with goose installed or manually running sql queries found in the schema folders
 
 | Command     | Description                               | Auth Required |
 | ----------- | ----------------------------------------- | ------------- |

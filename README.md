@@ -30,8 +30,8 @@ go install github.com/your-username/gator@late
 ```
 ## ⚙️ Configuration
 
-Gator expects a configuration file named config.json located either in your home directory or as a fallback in the current project root.
-✅ Sample config.json:
+Gator expects a configuration file named .gatorconfig.json located either in your home directory or as a fallback in the current project root.
+✅ Sample .gatorconfig.json:
 
 {
   "DB_url": "postgres://postgres:postgres@localhost:5432/gator?sslmode=disable",

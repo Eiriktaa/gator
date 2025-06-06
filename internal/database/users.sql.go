@@ -97,7 +97,7 @@ func (q *Queries) GetUsers(ctx context.Context) ([]User, error) {
 }
 
 const truncateUsers = `-- name: TruncateUsers :exec
-TRUNCATE TABLE users
+DELETE from users
 `
 
 func (q *Queries) TruncateUsers(ctx context.Context) error {

@@ -26,6 +26,7 @@ func NewCLIHandler() CommandHandlers {
 			"feeds":     handlerFeeds,
 			"follow":    middleware.MiddlewareLoggedIn(handlerFollow),
 			"following": middleware.MiddlewareLoggedIn(handlerFollowing),
+			"unfollow":  middleware.MiddlewareLoggedIn(handlerUnfollow),
 		},
 	}
 }

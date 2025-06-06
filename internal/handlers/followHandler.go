@@ -48,5 +48,21 @@ func handlerFollowing(s *state.State, cmd commands.Command, currentUser database
 		fmt.Println(feed)
 	}
 	return nil
-
+}
+func handlerUnfollow(s *state.State, cmd commands.Command, currentUser database.User) error {
+	args := cmd.Args
+	if len(args) != 1 {
+		return fmt.Errorf("Expected unfollow <url>")
+	}
+	url := args[0]
+	//empty context
+	ctx := context.Background()
+	_, err := s.DB.DeleteFollowing(ctx,
+		database.DeleteFollowingParams{
+			UserID: currentUser.ID,
+			Url:    url})
+	if err != nil {
+		return err
+	}
+	return nil
 }

@@ -31,3 +31,12 @@ FROM
   INNER JOIN feeds on feeds.id = feed_follow.feed_id
 WHERE users.id = $1
 ;
+-- name: DeleteFollowing :one
+DELETE FROM feed_follow
+WHERE feed_id IN (
+    SELECT feeds.id 
+    FROM feed_follow
+    INNER JOIN feeds on feeds.id = feed_follow.feed_id
+    WHERE feed_follow.user_id =$1 and feeds.url= $2
+)
+RETURNING *;

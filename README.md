@@ -14,7 +14,7 @@ Before using Gator, ensure the following are installed on your system:
 - **PostgreSQL**: [https://www.postgresql.org/download/](https://www.postgresql.org/download/)
 - **Goose** (Optional) (DB migration tool) — [https://github.com/pressly/goose](https://github.com/pressly/goose)
 
-Go Depenacies
+Go Dependancies
 - require (
     github.com/google/uuid v1.6.0  // indirect
     github.com/lib/pq v1.10.9      // PostgreSQL driver

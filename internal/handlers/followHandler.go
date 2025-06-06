@@ -36,9 +36,7 @@ func handlerFollow(s *state.State, cmd commands.Command, currentUser database.Us
 	return nil
 }
 func handlerFollowing(s *state.State, cmd commands.Command, currentUser database.User) error {
-
 	ctx := context.Background()
-
 	feeds, err := s.DB.GetFollowings(ctx, currentUser.ID)
 	if err != nil {
 		return err

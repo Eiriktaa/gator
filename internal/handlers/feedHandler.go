@@ -12,7 +12,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func handlerAddFeed(s *state.State, cmd commands.Command) error {
+func handlerAddFeed(s *state.State, cmd commands.Command, currentUser database.User) error {
 	args := cmd.Args
 	if len(args) != 2 {
 		return fmt.Errorf("Expected addfeed <name> <url>")
@@ -21,12 +21,6 @@ func handlerAddFeed(s *state.State, cmd commands.Command) error {
 	url := args[1]
 	//empty context
 	ctx := context.Background()
-	//TODO optimalize duplicate requests
-	currentUser, err := s.DB.GetUser(ctx, s.Config.Current_user_name)
-	if err != nil {
-		return fmt.Errorf("Unable to find current user")
-	}
-
 	feed, err := rss.FetchFeed(context.Background(), url)
 	if err != nil {
 		return err

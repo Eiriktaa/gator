@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"example.com/eiriktaa/gator/internal/commands"
+	"example.com/eiriktaa/gator/internal/middleware"
 	"example.com/eiriktaa/gator/internal/state"
 	"example.com/eiriktaa/gator/rss"
 )
@@ -21,10 +22,10 @@ func NewCLIHandler() CommandHandlers {
 			"reset":     handlerReset,
 			"users":     handlerUsers,
 			"agg":       handleAgg,
-			"addfeed":   handlerAddFeed,
+			"addfeed":   middleware.MiddlewareLoggedIn(handlerAddFeed),
 			"feeds":     handlerFeeds,
-			"follow":    handlerFollow,
-			"following": handlerFollowing,
+			"follow":    middleware.MiddlewareLoggedIn(handlerFollow),
+			"following": middleware.MiddlewareLoggedIn(handlerFollowing),
 		},
 	}
 }
